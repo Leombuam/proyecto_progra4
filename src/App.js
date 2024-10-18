@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Home from "Home";
+import Login from "Login";  
+import app from "./firebaseconfig";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref, get } from "firebase/database";  
+
+const Auth = getAuth(app);  
+const db = getDatabase(app); 
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  
+  async function getRol(uid)  {
+    const userRef = ref(db, `users/${uid}`); 
+    const snapshot = await get(userRef); 
+    if (snapshot.exists()) {
+      const userData = snapshot.val(); 
+      return userData.rol; 
+    } else {
+      console.error("No se encontraron datos del usuario");
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(Auth, (userFirebase) => {
+      if (userFirebase) {
+        getRol(userFirebase.uid).then((rol) => {
+          if (rol) {
+            const userData  = {
+              uid: userFirebase.uid,
+              email: userFirebase.email,
+              rol: rol,
+            };
+            setUser(userData); 
+          }
+        });
+      } else {
+        setUser(null);  
+      }
+    });
+
+    return () => unsubscribe();
+  }, []); 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {user ? <Home /> : <Login />}
+    </>
   );
 }
 
 export default App;
+
