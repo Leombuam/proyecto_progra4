@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Home from "Home";
-import Login from "Login";  
+import Home from './Components/Home';
+import Login from './Components/Login';  
 import app from "./firebaseconfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, get } from "firebase/database";  
