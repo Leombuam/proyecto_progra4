@@ -53,13 +53,14 @@ function Home({ user }) {
 
     return (
         <div>
-            <h1>Bienvenido {user.rol}</h1>
             <button onClick={handleSignOut}>Cerrar Sesión</button>
+            <h1>Bienvenido {user.rol}</h1>            
 
             {user.rol === 'admin' && <AdminView />}
             {user.rol === 'vipuser' && <VIPUserView />}  {/* Mostrar vista VIP */}
             {user.rol === 'user' && <RegularUserView />}  {/* Mostrar vista de usuario regular */}
             {user.rol === 'recepcionist' && <RecepcionistView />}  {/* Mostrar vista de recepcionista */}
+            
         </div>
     );
 }
