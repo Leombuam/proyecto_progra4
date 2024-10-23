@@ -30,25 +30,30 @@ function Login() {
 
     function submitHandler(e) {
         e.preventDefault();
-
+    
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const rol = e.target.rol.value;
-
+        const rol = e.target.rol?.value;  
+    
         if (isRegistering) {
             userregister(email, password, rol);
         } else {
             signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
+                .then((userCredential) => {
+                    
+                    console.log("Inicio de sesión exitoso:", userCredential.user);
                     setSuccessMessage('Inicio de sesión exitoso.');
-                    setErrorMessage('');
+                    setErrorMessage('');  
                 })
                 .catch((error) => {
-                    setErrorMessage(error.message);
-                    setSuccessMessage('');
+                    
+                    console.error("Error en el inicio de sesión:", error.message);
+                    setErrorMessage('Error en el inicio de sesión: ' + error.message);
+                    setSuccessMessage('');  
                 });
         }
-    }
+    }  
+    
 
     return (
         <div className="login-container">

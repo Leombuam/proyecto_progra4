@@ -11,7 +11,6 @@ const db = getDatabase(app);
 function App() {
   const [user, setUser] = useState(null);
 
-  
   async function getRol(uid)  {
     const userRef = ref(db, `users/${uid}`); 
     const snapshot = await get(userRef); 
@@ -23,6 +22,7 @@ function App() {
       return null;
     }
   }
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(Auth, (userFirebase) => {
@@ -32,9 +32,9 @@ function App() {
             const userData  = {
               uid: userFirebase.uid,
               email: userFirebase.email,
-              rol: rol,
+              rol: rol,  
             };
-            setUser(userData); 
+            setUser(userData);  
           }
         });
       } else {
@@ -47,10 +47,11 @@ function App() {
 
   return (
     <>
-      {user ? <Home /> : <Login />}
+      {user ? <Home user={user} /> : <Login />} {/* Pasa el usuario a Home */}
     </>
   );
 }
 
 export default App;
+
 
