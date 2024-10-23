@@ -3,6 +3,7 @@ import app from '../firebaseconfig';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import Button from 'react-bootstrap/Button';  
+import './Login.css';
 
 const auth = getAuth(app);
 const db = getDatabase(app);
@@ -16,8 +17,6 @@ function Login() {
         try {
             const infoUser = await createUserWithEmailAndPassword(auth, email, password);
             console.log("UID del usuario registrado:", infoUser.user.uid);
-
-            // Guardar el rol y correo en la base de datos en tiempo real
             const userRef = ref(db, "users/" + infoUser.user.uid);
             await set(userRef, { correo: email, rol: rol });
 
