@@ -1,8 +1,13 @@
-/* Estilos generales */
+
 body {
     background-color: #1606f0;
     font-family: 'Arial', sans-serif;
+    background-image: url(https://th.bing.com/th/id/R.d773edc43ac3172087ce930553992afb?rik=F8JtHdEIMs5bvg&riu=http%3a%2f%2fwww.elparana.com%2fwp-content%2fuploads%2f2016%2f03%2fTel%c3%b3n-de-Teatro.jpg&ehk=fKimLOJNR9hq2ddn4l%2bxdh9bIIu1ehu%2b2cSGN2DOYaE%3d&risl=&pid=ImgRaw&r=0); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
 }
+
 
 .login-container {
     display: flex;
@@ -13,21 +18,26 @@ body {
 
 .login-box {
     background-color: #ffffff;
-    padding: 40px;
+    padding: 40px 40px 20px; 
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     width: 350px;
     text-align: center;
+    opacity: 0.9;
+    background-image: url('https://e7.pngegg.com/pngimages/146/551/png-clipart-user-login-mobile-phones-password-user-miscellaneous-blue.png'); 
+    background-size: 60px; 
+    background-position: center top; 
+    background-repeat: no-repeat; 
 }
 
-/* Estilos de los títulos */
+
 h1 {
     color: #333;
     margin-bottom: 20px;
     font-size: 2em;
 }
 
-/* Estilos de formularios */
+
 form label {
     display: block;
     margin-bottom: 10px;
@@ -49,7 +59,7 @@ form input:focus {
     outline: none;
 }
 
-/* Estilos del botón */
+
 button {
     background-color: #007bff;
     color: white;
@@ -66,7 +76,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Enlaces */
+
 button.variant-link {
     background-color: transparent;
     color: #007bff;
@@ -78,7 +88,7 @@ button.variant-link:hover {
     color: #0056b3;
 }
 
-/* Mensajes de error o éxito */
+
 p {
     margin-top: 10px;
     font-size: 0.9em;
