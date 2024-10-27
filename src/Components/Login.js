@@ -58,6 +58,18 @@ function Login() {
         <div className="login-container">
             <div className="login-box">
                 <h1>{isRegistering ? "Register" : "Login"}</h1>
+                
+                {/* Barra de selección de escenario */}
+                <label htmlFor="escenario">Escoge un escenario:</label>
+                <select id="escenario" name="escenario" className="escenario-select" required>
+                    <option value="">Selecciona un escenario</option>
+                    <option value="aula-magna-ucr">Aula Magna UCR</option>
+                    <option value="centro-artes-una">Centro para las Artes UNA</option>
+                    <option value="centro-artes-tec">Centro de las Artes TEC</option>
+                    <option value="teatro-melico-salazar">Teatro Melico Salazar</option>
+                    <option value="teatro-nacional">Teatro Nacional</option>
+                </select>
+
                 <form onSubmit={submitHandler}>
                     <label>
                         Correo electrónico:
@@ -95,4 +107,5 @@ function Login() {
 }
 
 export default Login;
+
 

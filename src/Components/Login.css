@@ -102,3 +102,17 @@ p[style*="color: green"] {
     color: green;
 }
 
+.escenario-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.escenario-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
