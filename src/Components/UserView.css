@@ -15,7 +15,7 @@ nav {
     background-color: #003366; /* Color azul oscuro */
     padding: 15px;
     color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 nav button {
@@ -38,18 +38,15 @@ ul {
 }
 
 ul li {
-    background-color: #007acc; /* Color azul */
-    color: white;
+    background-color: transparent; 
+    color: #e6e6e6; 
     margin: 10px 0;
     padding: 15px;
     cursor: pointer;
     border-radius: 5px;
     text-align: center;
     transition: background-color 0.3s ease;
-}
-
-ul li:hover {
-    background-color: #005fa3; /* Color azul más oscuro */
+    border: none;
 }
 
 .event-container {
@@ -57,7 +54,7 @@ ul li:hover {
     padding: 20px;
     border-radius: 8px;
     margin: 20px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .seating-chart {
@@ -105,7 +102,7 @@ button.confirm-purchase {
 }
 
 button.confirm-purchase:hover {
-    background-color: #218838; /* Color verde más oscuro al pasar el mouse */
+    background-color: #218838; 
 }
 
 .qr-container {
@@ -115,9 +112,30 @@ button.confirm-purchase:hover {
 
 .qr-container h4 {
     margin-top: 0;
-    color: #333; /* Color gris oscuro para el encabezado del QR */
+    color: #333; 
 }
 
 .qr-container p {
-    color: #bff00d; /* Color gris para el texto */
+    color: #bff00d; 
 }
+
+.header-bar {
+    background-color: #007bff;
+    display: flex;
+    justify-content: flex-end; 
+    padding: 10px;
+}
+
+.nav-button {
+    color: white;
+    background: none;
+    border: none;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.nav-button:hover {
+    text-decoration: underline;
+}
+
