@@ -10,6 +10,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "@firebase/analytics": "0.10.8",
     "@firebase/analytics-compat": "0.2.14",
     "@firebase/app": "0.10.13",
@@ -34,16 +35,15 @@
     "@firebase/remote-config-compat": "0.2.9",
     "@firebase/storage": "0.13.2",
     "@firebase/storage-compat": "0.3.12",
-    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "bootstrap": "^5.3.3",
     "firebase": "^10.14.1",
+    "qrcode.react": "^4.1.0",
     "react": "^18.0.0",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.0.0",
     "react-scripts": "^5.0.1",
     "tslib": "^2.1.0",
     "web-vitals": "^4.2.3"
-    
   },
   "browserslist": {
     "production": [

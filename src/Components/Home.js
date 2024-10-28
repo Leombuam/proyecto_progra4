@@ -58,7 +58,7 @@ function Home({ user }) {
 
             {user.rol === 'admin' && <AdminView />}
             {user.rol === 'vipuser' && <VIPUserView />}  {/* Mostrar vista VIP */}
-            {user.rol === 'user' && <RegularUserView />}  {/* Mostrar vista de usuario regular */}
+            {user.rol === 'user' && <UserView />}  {/* Mostrar vista de usuario regular */}
             {user.rol === 'recepcionist' && <RecepcionistView />}  {/* Mostrar vista de recepcionista */}
             
         </div>
