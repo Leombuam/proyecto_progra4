@@ -1,0 +1,68 @@
+.centro-artes-una {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.screen {
+    width: 80%;
+    height: 50px;
+    margin: 20px auto;
+    background-color: white;
+    color: black;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.disponible {
+    background-color: gray;
+}
+
+.seleccionado {
+    background-color: green;
+}
+
+.ocupado {
+    background-color: red;
+    cursor: not-allowed;
+}
+
+.legend {
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    border-radius: 3px;
+}
+
+.legend-item.disponible {
+    background-color: gray;
+}
+
+.legend-item.seleccionado {
+    background-color: green;
+}
+
+.legend-item.ocupado {
+    background-color: red;
+}
