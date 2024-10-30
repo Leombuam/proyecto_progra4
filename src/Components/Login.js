@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import app from '../firebaseconfig';
+import { useNavigate } from 'react-router-dom';  // Importa el hook de navegación
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 import Button from 'react-bootstrap/Button';  
 import './Login.css';
 
@@ -12,14 +13,13 @@ function Login() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState(''); 
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();  // Instancia para navegar entre rutas
 
     async function userregister(email, password, rol) {
         try {
             const infoUser = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("UID del usuario registrado:", infoUser.user.uid);
             const userRef = ref(db, "users/" + infoUser.user.uid);
             await set(userRef, { correo: email, rol: rol });
-
             setSuccessMessage('Usuario registrado exitosamente.');
             setErrorMessage('');
         } catch (error) {
@@ -28,7 +28,7 @@ function Login() {
         }
     }
 
-    function submitHandler(e) {
+    async function submitHandler(e) {
         e.preventDefault();
     
         const email = e.target.email.value;
@@ -38,38 +38,42 @@ function Login() {
         if (isRegistering) {
             userregister(email, password, rol);
         } else {
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    
-                    console.log("Inicio de sesión exitoso:", userCredential.user);
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const userId = userCredential.user.uid;
+                
+                // Obtener el rol del usuario desde la base de datos
+                const userRef = ref(db, `users/${userId}`);
+                const snapshot = await get(userRef);
+                
+                if (snapshot.exists()) {
+                    const userRole = snapshot.val().rol;
                     setSuccessMessage('Inicio de sesión exitoso.');
-                    setErrorMessage('');  
-                })
-                .catch((error) => {
+                    setErrorMessage('');
                     
-                    console.error("Error en el inicio de sesión:", error.message);
-                    setErrorMessage('Error en el inicio de sesión: ' + error.message);
-                    setSuccessMessage('');  
-                });
+                    // Redirección basada en el rol del usuario
+                    if (userRole === 'admin') {
+                        navigate('/admin-view'); // Asegúrate de que /admin-view esté configurado en tus rutas
+                    } else if (userRole === 'recepcionist') {
+                        navigate('/recepcionist-view'); // Asegúrate de que /recepcionist-view esté configurado en tus rutas
+                    } else {
+                        navigate('/user-view'); // Redirige al perfil de usuario estándar
+                    }
+                } else {
+                    setErrorMessage('No se encontró el rol del usuario.');
+                }
+            } catch (error) {
+                setErrorMessage('Error en el inicio de sesión: ' + error.message);
+                setSuccessMessage('');
+            }
         }
     }  
     
     return (
         <div className="login-container">
             <div className="login-box">
-                <h1>{isRegistering ? "Register" : "Login"}</h1>
+                <h1>{isRegistering ? "Registrarse" : "Iniciar sesión"}</h1>
                 
-                {/* Barra de selección de escenario */}
-                <label htmlFor="escenario">Escoge un escenario:</label>
-                <select id="escenario" name="escenario" className="escenario-select" required>
-                    <option value="">Selecciona un escenario</option>
-                    <option value="aula-magna-ucr">Aula Magna UCR</option>
-                    <option value="centro-artes-una">Centro para las Artes UNA</option>
-                    <option value="centro-artes-tec">Centro de las Artes TEC</option>
-                    <option value="teatro-melico-salazar">Teatro Melico Salazar</option>
-                    <option value="teatro-nacional">Teatro Nacional</option>
-                </select>
-
                 <form onSubmit={submitHandler}>
                     <label>
                         Correo electrónico:
@@ -91,7 +95,7 @@ function Login() {
                         </label>
                     )}
                     <Button type="submit" variant="primary">
-                        {isRegistering ? "Register" : "Login"}
+                        {isRegistering ? "Registrarse" : "Iniciar sesión"}
                     </Button>
                 </form>
 
@@ -107,5 +111,7 @@ function Login() {
 }
 
 export default Login;
+
+
 
 

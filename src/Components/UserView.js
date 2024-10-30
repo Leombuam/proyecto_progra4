@@ -7,30 +7,24 @@ import app from '../firebaseconfig';
 
 const db = getDatabase(app);
 const auth = getAuth(app);
-const auditoriumContext = require.context('./Auditoriums', false, /\.js$/);
-const auditoriums = auditoriumContext.keys().map((key) => ({
-    name: key.replace('./', '').replace('.js', ''),
-    Component: auditoriumContext(key).default,
-}));
 
 function UserView() {
-    const [selectedAuditorium, setSelectedAuditorium] = useState(null);
-    const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [showQRCode, setShowQRCode] = useState(false);
 
-    const handleAuditoriumSelection = (auditorium) => {
-        setSelectedAuditorium(auditorium);
-        const eventsRef = ref(db, 'events');
-        onValue(eventsRef, (snapshot) => {
-            const data = snapshot.val();
-            const eventsList = data ? Object.values(data).filter(event => event.auditoriumId === auditorium.name) : [];
-            setEvents(eventsList);
-            setSelectedEvent(null);
-        });
-    };
+    const auditoriums = [
+        { name: "Aula Magna UCR", path: "/aula-magna-ucr" },
+        { name: "Centro para las Artes TEC", path: "/centro-artes-tec" },
+        { name: "Centro para las Artes UNA", path: "/centro-artes-una" },
+        { name: "Teatro Melico Salazar", path: "/teatro-melico-salazar" },
+        { name: "Teatro Nacional", path: "/teatro-nacional" },
+    ];
 
+    const handleAuditoriumSelection = (path) => {
+        window.open(`${window.location.origin}${path}`, '_blank');
+    };
+ 
     function handleEventSelection(eventId) {
         const eventRef = ref(db, `events/${eventId}`);
         onValue(eventRef, (snapshot) => {
@@ -66,50 +60,38 @@ function UserView() {
     }
 
     function handleLogout() {
-        signOut(auth);
+        signOut(auth)
+            .then(() => {
+                console.log("Sesión cerrada exitosamente.");                
+                window.location.href = '/';
+            })
+            .catch((error) => {
+                console.error("Error al cerrar sesión:", error);
+                alert("Hubo un error al intentar cerrar sesión. Inténtalo de nuevo.");
+            });
     }
+    
 
     return (
         <div>
-            {/* Nueva barra de menú */}
             <header className="header-bar">
                 <button className="nav-button" onClick={() => alert("Información de perfil")}>Perfil</button>
                 <button className="nav-button" onClick={() => alert("Notificaciones")}>Notificaciones</button>
                 <button className="nav-button" onClick={handleLogout}>Cerrar sesión</button>
             </header>
-            {/* Título de bienvenida */}
             <h1>Bienvenido</h1>
-            {/* Selección de auditorios */}
             <h2>Seleccione un Auditorio</h2>
             <ul>
                 {auditoriums.map(auditorium => (
-                    <li key={auditorium.name} onClick={() => handleAuditoriumSelection(auditorium)}>
+                    <li key={auditorium.name} onClick={() => handleAuditoriumSelection(auditorium.path)}>
                         {auditorium.name}
                     </li>
                 ))}
             </ul>
-            {/* Mostrar información del auditorio */}
-            {selectedAuditorium && (
-                <div>
-                    <selectedAuditorium.Component />
-                </div>
-            )}
-            {/* Mostrar eventos */}
-            {selectedAuditorium && events.length > 0 && (
-                <div>
-                    <h3>Eventos disponibles en {selectedAuditorium.name}:</h3>
-                    {events.map(event => (
-                        <button key={event.id} onClick={() => handleEventSelection(event.id)}>
-                            {event.name}
-                        </button>
-                    ))}
-                </div>
-            )}
             {selectedEvent && (
-                <div>
+                <div className="event-container">
                     <h3>{selectedEvent.name}</h3>
                     <p>{selectedEvent.description}</p>
-                    {/* Selección de asientos */}
                     <h4>Selecciona tus asientos:</h4>
                     <div className="seating-chart">
                         {selectedEvent.seats && selectedEvent.seats.map((seat, index) => (
@@ -122,11 +104,9 @@ function UserView() {
                             </button>
                         ))}
                     </div>
-                    {/* Confirmar compra */}
-                    <button onClick={handlePurchase}>Confirmar compra</button>
-                    {/* Mostrar QR */}
+                    <button className="confirm-purchase" onClick={handlePurchase}>Confirmar compra</button>
                     {showQRCode && (
-                        <div>
+                        <div className="qr-container">
                             <h4>Tu código QR para el evento</h4>
                             <QRCodeCanvas value={`event:${selectedEvent.id},seats:${selectedSeats.join(',')}`} size={128} />
                             <p>Recuerda llegar con 30 minutos de anticipación. Las entradas se liberan 10 minutos después del inicio.</p>
@@ -139,5 +119,10 @@ function UserView() {
 }
 
 export default UserView;
+
+
+
+
+
 
 
