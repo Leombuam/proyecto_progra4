@@ -12,8 +12,6 @@ import CentroArtesUNA from './Components/Auditoriums/CentroArtesUNA';
 import TeatroMelicoSalazar from './Components/Auditoriums/TeatroMelicoSalazar';
 import TeatroNacional from './Components/Auditoriums/TeatroNacional';
 
-
-
 const Auth = getAuth(app);  
 const db = getDatabase(app); 
 
@@ -57,25 +55,15 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={user ? <Home user={user} /> : <Login />} />
-        <Route path="/auditorium/:auditoriumName" element={<UserView />} /> {/* Ruta dinámica */}
+        <Route path="/UserView" element={<UserView />} />
+        <Route path="/aula-magna-ucr" element={<AulaMagnaUCR />} />
+        <Route path="/centro-artes-tec" element={<CentroArtesTEC />} />
+        <Route path="/centro-artes-una" element={<CentroArtesUNA />} />
+        <Route path="/teatro-melico-salazar" element={<TeatroMelicoSalazar />} />
+        <Route path="/teatro-nacional" element={<TeatroNacional />} />
       </Routes>
     </Router>
   );
-
-  function App() {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<UserView />} />
-                <Route path="/aula-magna-ucr" element={<AulaMagnaUCR />} />
-                <Route path="/centro-artes-tec" element={<CentroArtesTEC />} />
-                <Route path="/centro-artes-una" element={<CentroArtesUNA />} />
-                <Route path="/teatro-melico-salazar" element={<TeatroMelicoSalazar />} />
-                <Route path="/teatro-nacional" element={<TeatroNacional />} />
-            </Routes>
-        </Router>
-    );
-}
 }
 
 export default App;

@@ -124,7 +124,7 @@ button.confirm-purchase:hover {
     background-color: #007bff;
     display: flex;
     justify-content: flex-end; 
-    padding: 10px;
+    padding: 0.5px;
 }
 
 .nav-button {

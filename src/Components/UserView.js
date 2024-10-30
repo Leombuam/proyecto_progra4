@@ -71,7 +71,6 @@ function UserView() {
             });
     }
     
-
     return (
         <div>
             <header className="header-bar">

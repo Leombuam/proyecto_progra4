@@ -53,11 +53,11 @@ function Login() {
                     
                     // Redirección basada en el rol del usuario
                     if (userRole === 'admin') {
-                        navigate('/admin-view'); // Asegúrate de que /admin-view esté configurado en tus rutas
+                        navigate('./AdminView'); // Asegúrate de que /admin-view esté configurado en tus rutas
                     } else if (userRole === 'recepcionist') {
-                        navigate('/recepcionist-view'); // Asegúrate de que /recepcionist-view esté configurado en tus rutas
+                        navigate('./RecepcionistView'); // Asegúrate de que /recepcionist-view esté configurado en tus rutas
                     } else {
-                        navigate('/user-view'); // Redirige al perfil de usuario estándar
+                        navigate('./UserView'); // Redirige al perfil de usuario estándar
                     }
                 } else {
                     setErrorMessage('No se encontró el rol del usuario.');
