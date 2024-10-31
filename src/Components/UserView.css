@@ -13,7 +13,7 @@ h2, h3, h4 {
 nav {
     display: flex;
     justify-content: space-between;
-    background-color: #003366; /* Color azul oscuro */
+    background-color: #35eb11; /* Color azul oscuro */
     padding: 15px;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -50,76 +50,6 @@ ul li {
     border: none;
 }
 
-.event-container {
-    background-color: #e6e6e6; /* Color gris claro */
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.seating-chart {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 400px;
-    margin: 20px auto;
-    justify-content: center;
-}
-
-.seating-chart button {
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50; 
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.seating-chart button.selected {
-    background-color: #FF5733; /* Color rojo para asientos seleccionados */
-}
-
-.seating-chart button.reserved {
-    background-color: #A9A9A9; /* Color gris para asientos reservados */
-    cursor: not-allowed;
-}
-
-.seating-chart button:hover:not(.reserved) {
-    background-color: #45a049; /* Color verde más oscuro al pasar el mouse */
-}
-
-button.confirm-purchase {
-    background-color: #28a745; /* Color verde para el botón de compra */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button.confirm-purchase:hover {
-    background-color: #218838; 
-}
-
-.qr-container {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.qr-container h4 {
-    margin-top: 0;
-    color: #333; 
-}
-
-.qr-container p {
-    color: #bff00d; 
-}
-
 .header-bar {
     background-color: #007bff;
     display: flex;
@@ -140,11 +70,3 @@ button.confirm-purchase:hover {
     text-decoration: underline;
 }
 
-* {
-    outline: none;
-}
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
