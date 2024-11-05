@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UserView from './Components/UserView';
+import AdminView from './Components/AdminView';
+import VIPUserView from './Components/VIPUserView';
+import RecepcionistView from './Components/RecepcionistView';
 import Login from './Components/Login';
 import Home from './Components/Home';
 import app from "./firebaseconfig";
@@ -56,6 +59,9 @@ function App() {
       <Routes>
         <Route path="/" element={user ? <Home user={user} /> : <Login />} />
         <Route path="/UserView" element={<UserView />} />
+        <Route path="/AdminView" element={<AdminView />} />
+        <Route path="/RecepcionistView" element={<RecepcionistView />} />
+        <Route path="/VIPUserView" element={<VIPUserView />} />
         <Route path="/aula-magna-ucr" element={<AulaMagnaUCR />} />
         <Route path="/centro-artes-tec" element={<CentroArtesTEC />} />
         <Route path="/centro-artes-una" element={<CentroArtesUNA />} />
