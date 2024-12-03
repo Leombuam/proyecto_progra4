@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import app from '../firebaseconfig';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, update } from "firebase/database";
 import Button from 'react-bootstrap/Button';
 import './Login.css';
@@ -17,9 +17,14 @@ function Login() {
         try {
             const infoUser = await createUserWithEmailAndPassword(auth, email, password);
             const userRef = ref(db, "users/" + infoUser.user.uid);
-            await set(userRef, { correo: email, rol: rol, compras: 0 }); 
-            setSuccessMessage('Usuario registrado exitosamente.');
+            await set(userRef, { correo: email, rol: rol, compras: 0 });
+
+            // Cierra sesión inmediatamente después del registro
+            await signOut(auth);
+
+            setSuccessMessage('Usuario registrado exitosamente. Por favor, inicie sesión.');
             setErrorMessage('');
+            setIsRegistering(false); // Cambia a modo de inicio de sesión
         } catch (error) {
             setErrorMessage(error.message);
             setSuccessMessage('');
@@ -33,7 +38,7 @@ function Login() {
         const password = e.target.password.value;
 
         if (isRegistering) {
-            userregister(email, password, 'user');
+            await userregister(email, password, 'user');
         } else {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -46,15 +51,14 @@ function Login() {
                     const userData = snapshot.val();
                     const userRole = userData.rol;
                     const auditorio = userData.auditorio;
-                    const compras = userData.compras || 0;  
+                    const compras = userData.compras || 0;
 
-                    
                     if (compras >= 5 && userRole !== 'VIP') {
                         await update(userRef, { rol: 'VIP' });
                         window.location.href = '/VIPUserView';
                         return;
                     }
-                    
+
                     if (userRole === 'VIP') {
                         window.location.href = '/VIPUserView';
                     } else if (userRole === 'admin') {
@@ -100,7 +104,7 @@ function Login() {
                     } else {
                         window.location.href = '/UserView';
                     }
-                    
+
                     setSuccessMessage('Inicio de sesión exitoso.');
                     setErrorMessage('');
                 } else {
@@ -144,4 +148,6 @@ function Login() {
 }
 
 export default Login;
+
+
 

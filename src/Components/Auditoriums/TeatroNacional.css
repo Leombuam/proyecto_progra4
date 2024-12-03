@@ -1,68 +1,136 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 .teatro-nacional {
     text-align: center;
-    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
-.screen {
-    width: 80%;
-    height: 50px;
-    margin: 20px auto;
-    background-color: white;
-    color: black;
-    text-align: center;
-    line-height: 50px;
-    font-weight: bold;
+.event-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.event-info img {
+    max-width: 300px;
+    height: auto;
     border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.seat-grid {
-    display: grid;
-    grid-template-columns: repeat(10, 30px);
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
+.prices {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.8;
 }
 
-.seat {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    cursor: pointer;
+.prices p {
+    margin: 5px 0;
 }
-
-.disponible {
-    background-color: gray;
-}
-
-.seleccionado {
-    background-color: green;
-}
-
-.ocupado {
-    background-color: red;
-    cursor: not-allowed;
-}
-
 .legend {
     margin-top: 20px;
+    padding: 15px;
+    background-color: #222;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.legend-item.butaca::before {
+    content: '';
     display: inline-block;
-    width: 100px;
-    height: 20px;
-    margin: 0 10px;
+    width: 16px;
+    height: 16px;
+    background-color: blue;
     border-radius: 3px;
 }
 
-.legend-item.disponible {
-    background-color: gray;
-}
-
-.legend-item.seleccionado {
+.legend-item.luneta::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
     background-color: green;
+    border-radius: 3px;
 }
 
-.legend-item.ocupado {
-    background-color: red;
+.legend-item.palco::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: purple;
+    border-radius: 3px;
 }
+
+.legend-item.galería::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: orange;
+    border-radius: 3px;
+}
+
+.legend-item.disponible::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.legend-item.seleccionado::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: yellow;
+    border-radius: 3px;
+}
+
+.legend-item.ocupado::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: red;
+    border-radius: 3px;
+}
+
+
