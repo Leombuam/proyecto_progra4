@@ -6,25 +6,38 @@ import AdminView from './AdminView';
 import UserView from './UserView';
 import VIPUserView from './VIPUserView';
 import RecepcionistView from './RecepcionistView';
+import AdminAulaMagnaUCRView from './AdminAulaMagnaUCRView';
+import AdminCentroArtesTECView from './AdminCentroArtesTECView';
+import AdminCentroArtesUNAView from './AdminCentroArtesUNAView';
+import AdminTeatroMelicoSalazarView from './AdminTeatroMelicoSalazarView';
+import AdminTeatroNacionalView from './AdminTeatroNacionalView';
+import RecepcionistAulaMagnaUCR from './RecepcionistAulaMagnaUCR';
+import RecepcionistCentroArtesTEC from './RecepcionistCentroArtesTEC';
+import RecepcionistCentroArtesUNA from './RecepcionistCentroArtesUNA';
+import RecepcionistTeatroMelicoSalazar from './RecepcionistTeatroMelicoSalazar';
+import RecepcionistTeatroNacional from './RecepcionistTeatroNacional';
+
 
 const auth = getAuth(app);
 const db = getDatabase(app);
 
 function Home({ user }) {
     const [userRole, setUserRole] = useState('');
+    const [userAuditorium, setUserAuditorium] = useState('');
 
     useEffect(() => {
-        const fetchUserRole = async () => {
+        const fetchUserData = async () => {
             if (user) {
-                const userRef = ref(db, "users/" + user.uid);
+                const userRef = ref(db, `users/${user.uid}`);
                 const snapshot = await get(userRef);
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     setUserRole(data.rol);
+                    setUserAuditorium(data.auditorio);
                 }
             }
         };
-        fetchUserRole();
+        fetchUserData();
     }, [user]);
 
     const handleSignOut = async () => {
@@ -36,31 +49,53 @@ function Home({ user }) {
         }
     };
 
-    const renderViewBasedOnRole = () => {
-        switch (userRole) {
-            case 'admin':
-                return <AdminView />;
-            case 'user':
-                return <UserView />;
-            case 'vipuser':
-                return <VIPUserView />;
-            case 'recepcionist':
-                return <RecepcionistView />;
-            default:
-                return <p>Role desconocido o no autorizado</p>;
+    const renderViewBasedOnRoleAndAuditorium = () => {
+        if (userRole === 'admin') {
+            switch (userAuditorium) {
+                case 'Aula Magna UCR':
+                    return <AdminAulaMagnaUCRView />;
+                case 'Centro para las Artes UNA':
+                    return <AdminCentroArtesUNAView />;
+                case 'Centro para las Artes TEC':
+                    return <AdminCentroArtesTECView />;
+                case 'Teatro Melico Salazar':
+                    return <AdminTeatroMelicoSalazarView />;
+                case 'Teatro Nacional':
+                    return <AdminTeatroNacionalView />;
+                default:
+                    return <p>Auditorio no reconocido.</p>;
+            }
+        } else if (userRole === 'recepcionist') {
+            switch (userAuditorium) {
+                case 'Aula Magna UCR':
+                    return <RecepcionistAulaMagnaUCR />;
+                case 'Centro para las Artes UNA':
+                    return <RecepcionistCentroArtesUNA />;
+                case 'Centro para las Artes TEC':
+                    return <RecepcionistCentroArtesTEC />;
+                case 'Teatro Melico Salazar':
+                    return <RecepcionistTeatroMelicoSalazar />;
+                case 'Teatro Nacional':
+                    return <RecepcionistTeatroNacional />;
+                default:
+                    return <p>Auditorio no reconocido.</p>;
+            }
+        } else if (userRole === 'vipuser') {
+            return <VIPUserView />;
+        } else if (userRole === 'user') {
+            return <UserView />;
+        } else {
+            return <p>Rol no reconocido o no autorizado.</p>;
         }
     };
 
     return (
-        <div>                    
-
-            {user.rol === 'admin' && <AdminView />}
-            {user.rol === 'vipuser' && <VIPUserView />}  {/* Mostrar vista VIP */}
-            {user.rol === 'user' && <UserView />}  {/* Mostrar vista de usuario regular */}
-            {user.rol === 'recepcionist' && <RecepcionistView />}  {/* Mostrar vista de recepcionista */}
-            
+        <div>
+            <button onClick={handleSignOut}>Cerrar sesión</button>
+            {renderViewBasedOnRoleAndAuditorium()}
         </div>
     );
 }
 
 export default Home;
+
