@@ -1,0 +1,74 @@
+/* Contenedor principal de la orden de compra */
+.purchase-page-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #1c8633fb;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado principal (Orden de Compra en blanco) */
+.purchase-page-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: white; /* Texto en blanco */
+    background-color: #4CAF50; /* Fondo verde para destacar */
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* Encabezados secundarios */
+.purchase-page-container h2, .purchase-page-container h3 {
+    margin: 20px 0;
+    color: #ffffff; /* Color predeterminado para los demás encabezados */
+}
+
+
+/* Métodos de pago */
+.payment-methods {
+    text-align: left;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.payment-methods label {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.payment-methods input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botón de confirmación */
+.purchase-confirm-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.purchase-confirm-button:hover {
+    background-color: #45a049;
+}
+
+/* Mensaje de confirmación */
+.confirmation-message {
+    margin-top: 20px;
+    color: green;
+    font-weight: bold;
+}

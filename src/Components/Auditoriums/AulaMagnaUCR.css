@@ -1,6 +1,15 @@
 .aula-magna-ucr {
     text-align: center;
     font-family: Arial, sans-serif;
+    color: white; /* Mantener texto blanco para contraste */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.event-selection select {
+    padding: 10px;
+    font-size: 16px;
+    margin: 20px 0;
 }
 
 .screen {
@@ -20,7 +29,7 @@
     grid-template-columns: repeat(10, 30px);
     gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .seat {
@@ -28,41 +37,98 @@
     height: 30px;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.disponible {
     background-color: gray;
 }
 
-.seleccionado {
-    background-color: green;
+.seat.butaca {
+    border: 2px solid #FFD700; /* Oro */
 }
 
-.ocupado {
-    background-color: red;
+.seat.luneta {
+    border: 2px solid #1E90FF; /* Azul cielo */
+}
+
+.seat.palco {
+    border: 2px solid #32CD32; /* Verde lima */
+}
+
+.seat.galería {
+    border: 2px solid #FF69B4; /* Rosa fuerte */
+}
+
+.seat.seleccionado {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.seat.ocupado {
+    background-color: #f44336;
+    color: white;
     cursor: not-allowed;
 }
 
-.legend {
+.price-bar {
     margin-top: 20px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente */
+    border-radius: 5px;
 }
 
-.legend-item {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 0 10px;
-    border-radius: 3px;
+.price-bar p {
+    margin: 0;
 }
 
-.legend-item.disponible {
-    background-color: gray;
+.price-bar span {
+    font-weight: bold;
 }
 
-.legend-item.seleccionado {
-    background-color: green;
+.price-bar span.butaca {
+    color: #FFD700; /* Oro */
 }
 
-.legend-item.ocupado {
-    background-color: red;
+.price-bar span.luneta {
+    color: #1E90FF; /* Azul cielo */
+}
+
+.price-bar span.palco {
+    color: #32CD32; /* Verde lima */
+}
+
+.price-bar span.galería {
+    color: #FF69B4; /* Rosa fuerte */
+}
+
+.price-bar {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente */
+    color: white; /* Texto blanco */
+    border-radius: 10px;
+    text-align: center;
+}
+
+.price-bar span {
+    font-weight: bold;
+}
+
+.reserve-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.reserve-button:hover {
+    background-color: #45a049;
+}
+.seat.ocupado {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    cursor: not-allowed;
+    pointer-events: none;
 }

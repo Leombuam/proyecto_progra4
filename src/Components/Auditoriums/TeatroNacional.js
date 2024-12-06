@@ -1,91 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TeatroNacional.css';
 
 function TeatroNacional() {
     const [selectedEvent, setSelectedEvent] = useState(null);
-    const [seats, setSeats] = useState(
-        Array(100).fill('disponible').map((seat, index) => {
-            if (index < 20) return { status: 'disponible', section: 'butaca' };
-            if (index < 40) return { status: 'disponible', section: 'luneta' };
-            if (index < 70) return { status: 'disponible', section: 'palco' };
-            return { status: 'disponible', section: 'galería' };
-        })
-    );
+    const [seats, setSeats] = useState([]);
+    const navigate = useNavigate();
 
     const events = {
         'Castella Canta en Navidad': {
             description: 'Una celebración navideña con el Conservatorio de Castella, presentando música en vivo, coro, danza y teatro.',
             schedule: '3 de diciembre de 2024, 7:00 PM',
             prices: {
-                butaca: '¢24,000',
-                luneta: '¢24,000',
-                palco: '¢19,200',
-                galería: '¢7,200'
+                butaca: 24000,
+                luneta: 24000,
+                palco: 19200,
+                galería: 7200,
             },
-            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-6979_castellacantaennavidad2.jpeg'
+            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-6979_castellacantaennavidad2.jpeg',
         },
         'X Concierto de Temporada Orquesta Sinfónica Nacional 2024': {
             description: 'La Orquesta Sinfónica Nacional presenta su décimo concierto de temporada bajo la dirección de Carl St. Clair.',
             schedule: '1 de diciembre de 2024, 10:30 AM',
             prices: {
-                butaca: '¢24,000',
-                luneta: '¢24,000',
-                palco: '¢19,200',
-                galería: '¢7,200'
+                butaca: 24000,
+                luneta: 24000,
+                palco: 19200,
+                galería: 7200,
             },
-            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-1267_xconciertocopia247577.jpg'
+            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-1267_xconciertocopia247577.jpg',
         },
         'En las ramas del ciprés': {
             description: 'Una obra de ballet contemporáneo que reimagina la tradición navideña, rompiendo estereotipos y ofreciendo una nueva perspectiva.',
             schedule: '12 al 22 de diciembre de 2024, varios horarios',
             prices: {
-                butaca: '¢24,000',
-                luneta: '¢24,000',
-                palco: '¢19,200',
-                galería: '¢7,200'
+                butaca: 24000,
+                luneta: 24000,
+                palco: 19200,
+                galería: 7200,
             },
-            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-2230_ramas.jpg'
-        }
+            image: 'https://www.teatronacional.go.cr/repositorio/detail/94-2230_ramas.jpg',
+        },
     };
+
+    useEffect(() => {
+        const storedSeats = localStorage.getItem('reservedSeatsTeatroNacional');
+        if (storedSeats) {
+            setSeats(JSON.parse(storedSeats));
+        } else {
+            setSeats(
+                Array(100).fill('disponible').map((seat, index) => {
+                    if (index < 20) return { status: 'disponible', section: 'butaca' };
+                    if (index < 40) return { status: 'disponible', section: 'luneta' };
+                    if (index < 70) return { status: 'disponible', section: 'palco' };
+                    return { status: 'disponible', section: 'galería' };
+                })
+            );
+        }
+    }, []);
 
     const handleEventChange = (event) => {
         setSelectedEvent(event.target.value);
-        setSeats((prevSeats) =>
-            prevSeats.map((seat, index) => {
-                if (index < 20) return { status: 'disponible', section: 'butaca' };
-                if (index < 40) return { status: 'disponible', section: 'luneta' };
-                if (index < 70) return { status: 'disponible', section: 'palco' };
-                return { status: 'disponible', section: 'galería' };
-            })
-        );
     };
 
     const handleSeatClick = (index) => {
         setSeats((prevSeats) =>
             prevSeats.map((seat, seatIndex) =>
-                seatIndex === index
-                    ? {
-                          ...seat,
-                          status: seat.status === 'disponible' ? 'seleccionado' : 'disponible'
-                      }
+                seatIndex === index && seat.status !== 'ocupado'
+                    ? { ...seat, status: seat.status === 'disponible' ? 'seleccionado' : 'disponible' }
                     : seat
             )
         );
     };
 
     const handleReserve = () => {
-        setSeats((prevSeats) =>
-            prevSeats.map((seat) =>
-                seat.status === 'seleccionado' ? { ...seat, status: 'ocupado' } : seat
-            )
+        const selectedSeats = seats.filter((seat) => seat.status === 'seleccionado');
+        if (selectedSeats.length === 0) {
+            alert('Por favor, selecciona al menos un asiento.');
+            return;
+        }
+
+        const total = selectedSeats.reduce((sum, seat) => sum + events[selectedEvent].prices[seat.section], 0);
+
+        const updatedSeats = seats.map((seat) =>
+            seat.status === 'seleccionado' ? { ...seat, status: 'ocupado' } : seat
         );
-        alert('Reserva realizada con éxito.');
+        setSeats(updatedSeats);
+        localStorage.setItem('reservedSeatsTeatroNacional', JSON.stringify(updatedSeats));
+
+        navigate('/purchase', {
+            state: {
+                selectedEvent,
+                selectedSeats,
+                total,
+                prices: events[selectedEvent].prices,
+            },
+        });
     };
 
     return (
         <div className="teatro-nacional">
-            <h2>Vista del Teatro Nacional</h2>
-            <p>Selecciona un evento para gestionar reservas.</p>
+            <h2>Teatro Nacional</h2>
+            <p>Selecciona un evento para gestionar tus reservas.</p>
 
             <div className="event-selection">
                 <label htmlFor="event">Selecciona un evento:</label>
@@ -104,29 +120,12 @@ function TeatroNacional() {
                     <div className="event-details">
                         <h3>{selectedEvent}</h3>
                         <div className="event-info">
-                            <img
-                                src={events[selectedEvent].image}
-                                alt={`Póster de ${selectedEvent}`}
-                            />
+                            <img src={events[selectedEvent].image} alt={`Póster de ${selectedEvent}`} />
                             <div>
                                 <p>{events[selectedEvent].description}</p>
                                 <p>
                                     <strong>Horario:</strong> {events[selectedEvent].schedule}
                                 </p>
-                                <div className="prices">
-                                    <p style={{ color: 'blue' }}>
-                                        Butaca: {events[selectedEvent].prices.butaca}
-                                    </p>
-                                    <p style={{ color: 'green' }}>
-                                        Luneta: {events[selectedEvent].prices.luneta}
-                                    </p>
-                                    <p style={{ color: 'purple' }}>
-                                        Palco: {events[selectedEvent].prices.palco}
-                                    </p>
-                                    <p style={{ color: 'orange' }}>
-                                        Galería: {events[selectedEvent].prices.galería}
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,22 +142,19 @@ function TeatroNacional() {
                         ))}
                     </div>
 
-                    <button onClick={handleReserve}>Reservar</button>
+                    <div className="price-bar">
+                        <p>
+                            <strong>Precios:</strong>
+                            <span className="butaca"> Butaca: ¢{events[selectedEvent].prices.butaca} </span> |
+                            <span className="luneta"> Luneta: ¢{events[selectedEvent].prices.luneta} </span> |
+                            <span className="palco"> Palco: ¢{events[selectedEvent].prices.palco} </span> |
+                            <span className="galería"> Galería: ¢{events[selectedEvent].prices.galería} </span>
+                        </p>
+                    </div>
 
-                    <div className="legend">
-    <div className="legend-row">
-        <span className="legend-item butaca">Butaca </span>
-        <span className="legend-item luneta">Luneta </span>
-        <span className="legend-item palco">Palco </span>
-        <span className="legend-item galería">Galería </span>
-    </div>
-    <div className="legend-row">
-        <span className="legend-item disponible">Disponible</span>
-        <span className="legend-item seleccionado">Seleccionado</span>
-        <span className="legend-item ocupado">Ocupado</span>
-    </div>
-</div>
-
+                    <button className="reserve-button" onClick={handleReserve}>
+                        Reservar Asientos Seleccionados
+                    </button>
                 </>
             )}
         </div>
@@ -166,10 +162,3 @@ function TeatroNacional() {
 }
 
 export default TeatroNacional;
-
-
-
-
-
-
-

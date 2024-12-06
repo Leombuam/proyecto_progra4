@@ -2,8 +2,6 @@ body {
     background-color: black;
     color: white;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 .teatro-nacional {
@@ -18,119 +16,43 @@ body {
     gap: 20px;
 }
 
-.event-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-}
-
 .event-info img {
     max-width: 300px;
-    height: auto;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.prices {
-    text-align: left;
-    font-size: 16px;
-    line-height: 1.8;
-}
-
-.prices p {
-    margin: 5px 0;
-}
-.legend {
+.price-bar {
     margin-top: 20px;
     padding: 15px;
-    background-color: #222;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
     gap: 10px;
-}
-
-.legend-row {
-    display: flex;
     justify-content: center;
-    gap: 15px;
 }
 
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 5px;
+.seat.butaca {
+    border: 2px solid #FFD700;
 }
 
-.legend-item.butaca::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: blue;
-    border-radius: 3px;
+.seat.luneta {
+    border: 2px solid #1E90FF;
 }
 
-.legend-item.luneta::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: green;
-    border-radius: 3px;
+.seat.palco {
+    border: 2px solid #32CD32;
 }
 
-.legend-item.palco::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: purple;
-    border-radius: 3px;
+.seat.galería {
+    border: 2px solid #FF69B4;
 }
 
-.legend-item.galería::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: orange;
-    border-radius: 3px;
-}
-
-.legend-item.disponible::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: white;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-}
-
-.legend-item.seleccionado::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: yellow;
-    border-radius: 3px;
-}
-
-.legend-item.ocupado::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
+.seat.ocupado {
     background-color: red;
-    border-radius: 3px;
+    pointer-events: none;
 }
-
-

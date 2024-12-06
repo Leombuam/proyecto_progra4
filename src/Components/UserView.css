@@ -1,71 +1,148 @@
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f5;
     margin: 0;
     padding: 0;
-}
-
-h2, h3, h4 {
-    color: #4CAF50; /* Color verde para los encabezados */
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    background-color: #35eb11; /* Color azul oscuro */
-    padding: 15px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-nav button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 0 15px;
-    transition: color 0.3s ease;
-}
-
-nav button:hover {
-    color: #ffcc00; /* Color dorado al pasar el mouse */
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    background-color: transparent; 
-    color: #e6e6e6; 
-    margin: 10px 0;
-    padding: 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    border: none;
+    background-color: #f4f4f9;
 }
 
 .header-bar {
-    background-color: #007bff;
     display: flex;
-    justify-content: flex-end; 
-    padding: 0.5px;
+    justify-content: flex-end;
+    background-color: transparent;
+    padding: 10px;
+    color: white;
 }
 
 .nav-button {
+    background-color: transparent;
     color: white;
-    background: none;
     border: none;
-    margin: 0 10px;
+    padding: 10px 15px;
+    margin-left: 10px;
     cursor: pointer;
-    font-size: 1em;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-    text-decoration: underline;
+    background-color: #1abc9c;
+}
+
+/* Main Content Styles */
+h1 {
+    text-align: center;
+    color: #177bdf;
+    margin-top: 30px;
+}
+
+h2 {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Auditorium List Styles */
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+li {
+    background-color: transparent;
+    margin: 10px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    text-align: center;
+    font-weight: bold;
+    color: #1175d8;
+}
+
+li:hover {
+    transform: scale(1.05);
+    background-color: #1abc9c;
+    color: white;
+}
+
+/* Contenedor principal del carrusel */
+.carousel {
+    display: flex;
+    justify-content: center; /* Centra los elementos del carrusel */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px;
+    background-color: #146aeb;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%; /* Ajusta el ancho máximo del carrusel */
+    margin: 0 auto; /* Centra el carrusel dentro de la página */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+/* Estilos individuales de las imágenes */
+.carousel-item {
+    flex: 0 0 auto;
+    width: 250px; /* Tamaño uniforme para cada ítem */
+    scroll-snap-align: start;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-item:hover {
+    transform: scale(1.1); /* Resalta la imagen al pasar el cursor */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-item img {
+    width: 100%; /* La imagen ocupa el ancho completo del ítem */
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Información debajo de cada imagen */
+.carousel-info {
+    padding: 10px;
+    color: #34495e;
+}
+
+.carousel-info h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.carousel-info p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+/* Barra de desplazamiento personalizada */
+.carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+    background: #1abc9c;
+    border-radius: 10px;
+}
+
+.carousel::-webkit-scrollbar-track {
+    background: #04a9f5;
+    border-radius: 10px;
 }

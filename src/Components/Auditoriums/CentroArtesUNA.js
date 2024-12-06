@@ -1,85 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CentroArtesUNA.css';
 
 function CentroArtesUNA() {
     const [selectedEvent, setSelectedEvent] = useState(null);
-    const [seats, setSeats] = useState(
-        Array(100).fill('disponible').map((seat, index) => {
-            if (index < 20) return { status: 'disponible', section: 'butaca' };
-            if (index < 40) return { status: 'disponible', section: 'luneta' };
-            if (index < 70) return { status: 'disponible', section: 'palco' };
-            return { status: 'disponible', section: 'galería' };
-        })
-    );
+    const [seats, setSeats] = useState([]);
+    const navigate = useNavigate();
 
     const events = {
         'Concierto con Jon Secada junto a la Costa Rica Jazz Orchestra': {
             description: 'Disfruta de una noche inolvidable con Jon Secada y la Costa Rica Jazz Orchestra, presentando una fusión única de jazz y pop.',
             schedule: '2 de diciembre de 2024, 6:00 PM',
             prices: {
-                butaca: '¢30,000',
-                luneta: '¢25,000',
-                palco: '¢20,000',
-                galería: '¢15,000'
+                butaca: 30000,
+                luneta: 25000,
+                palco: 20000,
+                galería: 15000,
             },
-            image: 'https://www.nacion.com/resizer/v2/FUX5WWBP5RCDHHCJJCADGBB4ZE.jpg?smart=true&auth=5a33e4ed4a06673e14d3e09327969a3039c44d11a073541da57092887a270d14&width=1440&height=753'
+            image: 'https://www.nacion.com/resizer/v2/FUX5WWBP5RCDHHCJJCADGBB4ZE.jpg?smart=true&auth=5a33e4ed4a06673e14d3e09327969a3039c44d11a073541da57092887a270d14&width=1440&height=753',
         },
         'Danza Argentina “Malambeando”': {
             description: 'Sumérgete en la pasión y energía del malambo argentino con el espectáculo "Malambeando", una muestra vibrante de danza tradicional.',
             schedule: '5 de diciembre de 2024, 7:00 PM',
             prices: {
-                butaca: '¢28,000',
-                luneta: '¢23,000',
-                palco: '¢18,000',
-                galería: '¢12,000'
+                butaca: 28000,
+                luneta: 23000,
+                palco: 18000,
+                galería: 12000,
             },
-            image: 'https://www.teatrebarcelona.com/wp-content/uploads/2018/05/malabeando-carrion-valladolid_detail.jpg'
+            image: 'https://www.teatrebarcelona.com/wp-content/uploads/2018/05/malabeando-carrion-valladolid_detail.jpg',
         },
         'Concierto “Costa Rica en Concierto Sinfónico”': {
             description: 'La Orquesta Sinfónica Juvenil se une a destacados artistas nacionales como Éditus, Humberto Vargas, Suite Doble, Gaviota, Inconsciente Colectivo y Marfil para una noche sinfónica memorable.',
             schedule: '5 de diciembre de 2024, 6:00 PM',
             prices: {
-                butaca: '¢35,000',
-                luneta: '¢30,000',
-                palco: '¢25,000',
-                galería: '¢20,000'
+                butaca: 35000,
+                luneta: 30000,
+                palco: 25000,
+                galería: 20000,
             },
-            image: 'https://orquestafilarmonica.com/wp-content/uploads/OrquestaFilarmonicaDeCostaRica_01.jpg'
-        }
+            image: 'https://orquestafilarmonica.com/wp-content/uploads/OrquestaFilarmonicaDeCostaRica_01.jpg',
+        },
     };
+
+    useEffect(() => {
+        const storedSeats = localStorage.getItem('reservedSeatsCentroArtesUNA');
+        if (storedSeats) {
+            setSeats(JSON.parse(storedSeats));
+        } else {
+            setSeats(
+                Array(100).fill('disponible').map((seat, index) => {
+                    if (index < 20) return { status: 'disponible', section: 'butaca' };
+                    if (index < 40) return { status: 'disponible', section: 'luneta' };
+                    if (index < 70) return { status: 'disponible', section: 'palco' };
+                    return { status: 'disponible', section: 'galería' };
+                })
+            );
+        }
+    }, []);
 
     const handleEventChange = (event) => {
         setSelectedEvent(event.target.value);
-        setSeats((prevSeats) =>
-            prevSeats.map((seat, index) => {
-                if (index < 20) return { status: 'disponible', section: 'butaca' };
-                if (index < 40) return { status: 'disponible', section: 'luneta' };
-                if (index < 70) return { status: 'disponible', section: 'palco' };
-                return { status: 'disponible', section: 'galería' };
-            })
-        );
     };
 
     const handleSeatClick = (index) => {
         setSeats((prevSeats) =>
             prevSeats.map((seat, seatIndex) =>
-                seatIndex === index
-                    ? {
-                          ...seat,
-                          status: seat.status === 'disponible' ? 'seleccionado' : 'disponible'
-                      }
+                seatIndex === index && seat.status !== 'ocupado'
+                    ? { ...seat, status: seat.status === 'disponible' ? 'seleccionado' : 'disponible' }
                     : seat
             )
         );
     };
 
     const handleReserve = () => {
-        setSeats((prevSeats) =>
-            prevSeats.map((seat) =>
-                seat.status === 'seleccionado' ? { ...seat, status: 'ocupado' } : seat
-            )
+        const selectedSeats = seats.filter((seat) => seat.status === 'seleccionado');
+        if (selectedSeats.length === 0) {
+            alert('Por favor, selecciona al menos un asiento.');
+            return;
+        }
+
+        const total = selectedSeats.reduce((sum, seat) => sum + events[selectedEvent].prices[seat.section], 0);
+
+        const updatedSeats = seats.map((seat) =>
+            seat.status === 'seleccionado' ? { ...seat, status: 'ocupado' } : seat
         );
-        alert('Reserva realizada con éxito.');
+        setSeats(updatedSeats);
+        localStorage.setItem('reservedSeatsCentroArtesUNA', JSON.stringify(updatedSeats));
+
+        navigate('/purchase', {
+            state: {
+                selectedEvent,
+                selectedSeats,
+                total,
+                prices: events[selectedEvent].prices,
+            },
+        });
     };
 
     return (
@@ -104,29 +120,12 @@ function CentroArtesUNA() {
                     <div className="event-details">
                         <h3>{selectedEvent}</h3>
                         <div className="event-info">
-                            <img
-                                src={events[selectedEvent].image}
-                                alt={`Póster de ${selectedEvent}`}
-                            />
+                            <img src={events[selectedEvent].image} alt={`Póster de ${selectedEvent}`} />
                             <div>
                                 <p>{events[selectedEvent].description}</p>
                                 <p>
                                     <strong>Horario:</strong> {events[selectedEvent].schedule}
                                 </p>
-                                <div className="prices">
-                                    <p className="butaca">
-                                        Butaca: {events[selectedEvent].prices.butaca}
-                                    </p>
-                                    <p className="luneta">
-                                        Luneta: {events[selectedEvent].prices.luneta}
-                                    </p>
-                                    <p className="palco">
-                                        Palco: {events[selectedEvent].prices.palco}
-                                    </p>
-                                    <p className="galería">
-                                        Galería: {events[selectedEvent].prices.galería}
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,22 +142,19 @@ function CentroArtesUNA() {
                         ))}
                     </div>
 
-                    <button onClick={handleReserve}>Reservar</button>
+                    <div className="price-bar">
+                        <p>
+                            <strong>Precios:</strong>
+                            <span className="butaca"> Butaca: ¢{events[selectedEvent].prices.butaca} </span> |
+                            <span className="luneta"> Luneta: ¢{events[selectedEvent].prices.luneta} </span> |
+                            <span className="palco"> Palco: ¢{events[selectedEvent].prices.palco} </span> |
+                            <span className="galería"> Galería: ¢{events[selectedEvent].prices.galería} </span>
+                        </p>
+                    </div>
 
-                    <div className="legend">
-                        <div className="legend-row">
-                            <span className="legend-item butaca">Butaca</span>
-                            <span className="legend-item luneta">Luneta</span>
-                            <span className="legend-item palco">Palco</span>
-                            <span className="legend-item galería">Galería </span>
-    </div>
-    <div className="legend-row">
-        <span className="legend-item disponible">Disponible</span>
-        <span className="legend-item seleccionado">Seleccionado</span>
-        <span className="legend-item ocupado">Ocupado</span>
-    </div>
-</div>
-
+                    <button className="reserve-button" onClick={handleReserve}>
+                        Reservar Asientos Seleccionados
+                    </button>
                 </>
             )}
         </div>
@@ -166,5 +162,3 @@ function CentroArtesUNA() {
 }
 
 export default CentroArtesUNA;
- 
-

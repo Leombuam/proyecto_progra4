@@ -1,6 +1,7 @@
 .centro-artes-tec {
     text-align: center;
     font-family: Arial, sans-serif;
+    color: white;
 }
 
 .screen {
@@ -30,39 +31,59 @@
     cursor: pointer;
 }
 
-.disponible {
+.seat.butaca {
+    border: 2px solid #FFD700; /* Oro */
+}
+
+.seat.luneta {
+    border: 2px solid #1E90FF; /* Azul cielo */
+}
+
+.seat.palco {
+    border: 2px solid #32CD32; /* Verde lima */
+}
+
+.seat.galería {
+    border: 2px solid #FF69B4; /* Rosa fuerte */
+}
+
+.seat.disponible {
     background-color: gray;
 }
 
-.seleccionado {
+.seat.seleccionado {
     background-color: green;
+    color: white;
 }
 
-.ocupado {
+.seat.ocupado {
     background-color: red;
+    color: white;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
-.legend {
+.price-bar {
     margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.legend-item {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 0 10px;
-    border-radius: 3px;
+.reserve-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
-.legend-item.disponible {
-    background-color: gray;
-}
-
-.legend-item.seleccionado {
-    background-color: green;
-}
-
-.legend-item.ocupado {
-    background-color: red;
+.reserve-button:hover {
+    background-color: #45a049;
 }
