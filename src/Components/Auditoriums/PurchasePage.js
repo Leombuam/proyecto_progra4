@@ -8,12 +8,26 @@ function PurchasePage() {
     const [orderId, setOrderId] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState('');
     const [paymentDetails, setPaymentDetails] = useState('');
+    const [vipCode, setVipCode] = useState('');
+    const [discountApplied, setDiscountApplied] = useState(false);
+    const [finalTotal, setFinalTotal] = useState(state?.total || 0);
 
     if (!state) {
         return <h1>No se encontraron datos de la compra</h1>;
     }
 
     const { selectedEvent, total, selectedSeats, prices } = state;
+
+    const handleApplyVipCode = () => {
+        if (vipCode === '202412') { 
+            const discountedTotal = total * 0.8; 
+            setFinalTotal(discountedTotal);
+            setDiscountApplied(true);
+            alert('¡Código VIP aplicado! Se ha descontado un 20% del total.');
+        } else {
+            alert('El código VIP ingresado no es válido.');
+        }
+    };
 
     const handleConfirmPurchase = () => {
         if (!paymentMethod) {
@@ -27,7 +41,7 @@ function PurchasePage() {
         }
 
         if (paymentMethod === 'paypal') {
-            const paypalURL = `https://www.paypal.com/checkoutnow?amount=${total}`;
+            const paypalURL = `https://www.paypal.com/checkoutnow?amount=${finalTotal}`;
             alert('Serás redirigido a PayPal. Una vez completado el pago, volverás al menú de usuario.');
             window.location.href = paypalURL;
             setTimeout(() => {
@@ -36,16 +50,13 @@ function PurchasePage() {
             return;
         }
 
-        
         const generatedOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
         setOrderId(generatedOrderId);
 
-        
         setTimeout(() => {
             alert(`Compra confirmada con el número de orden: ${generatedOrderId}`);
             navigate('/UserView', { state: { reservationSuccess: true } }); 
         }, 1500);
-        
     };
 
     const renderPaymentForm = () => {
@@ -108,7 +119,18 @@ function PurchasePage() {
             </div>
 
             <div className="purchase-total">
-                <p>Total: ¢{total}</p>
+                <p>Total: ¢{discountApplied ? <del>{total}</del> : total} {discountApplied && <strong>¢{finalTotal}</strong>}</p>
+            </div>
+
+            <div className="vip-code-section">
+                <h3>¿Tienes un código VIP?</h3>
+                <input
+                    type="text"
+                    placeholder="Ingresa tu código VIP"
+                    value={vipCode}
+                    onChange={(e) => setVipCode(e.target.value)}
+                />
+                <button onClick={handleApplyVipCode}>Aplicar Código</button>
             </div>
 
             <div className="payment-methods">
@@ -159,3 +181,4 @@ function PurchasePage() {
 }
 
 export default PurchasePage;
+
