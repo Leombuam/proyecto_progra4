@@ -1,20 +1,91 @@
-# Reserva de Eventos de Teatro
+ReservApp - Sistema de Reserva de Auditorios en Costa Rica
 
-ReservApp es una aplicación web diseñada para gestionar la reserva de auditorios en diferentes ubicaciones dentro de la zona central de Costa Rica, creada para el curso de "Progra 4". La aplicación permite a los usuarios hacer reservas de asientos para eventos, con diferentes niveles de acceso dependiendo del tipo de usuario.
+ReservApp es una aplicación web diseñada para la gestión de reservas de asientos en eventos y auditorios ubicados en la zona central de Costa Rica. Desarrollada como parte del curso de Progra 4, esta plataforma ofrece funcionalidades avanzadas para diferentes tipos de usuarios, garantizando una experiencia interactiva, eficiente y en tiempo real.
 
-## Tecnologías Utilizadas
+Tecnologías Utilizadas
 
--React JS: Framework utilizado para construir la interfaz de usuario.
+React JS: Framework para la construcción de una interfaz de usuario dinámica e interactiva.
 
--Firebase: Utilizado como backend para autenticación, base de datos en tiempo real y almacenamiento de reservas.
+Firebase: Backend como servicio para:
 
--GIT: Control de versiones desde el día 1 para un desarrollo colaborativo.
+Autenticación de usuarios.
 
--Trello: Gestión del proyecto y seguimiento de tareas.
+Base de datos en tiempo real para reservas y gestión de eventos.
 
-### Descripción del Proyecto
+Almacenamiento de imágenes de eventos.
 
-En Costa Rica se celebran múltiples festivales en auditorios, y ReservApp permite a los usuarios reservar asientos en 5 auditorios diferentes:
+GIT: Control de versiones desde el inicio para un desarrollo colaborativo.
+
+Trello: Herramienta de gestión de tareas y planificación del proyecto.
+
+Funcionalidades Principales
+
+Reservas en Tiempo Real
+
+Los usuarios pueden seleccionar y reservar asientos directamente desde un mapa interactivo del auditorio, con actualizaciones inmediatas de disponibilidad.
+
+Gestión de Usuarios
+
+Usuario Básico: Puede reservar hasta 5 asientos en cualquier auditorio.
+
+Usuario VIP:
+
+Acceso exclusivo para reservar un día antes.
+
+Descuento del 20% en teatros con zonas VIP.
+
+Asientos especiales reservados solo para VIP.
+
+Administrador:
+
+Administra un auditorio específico (uno por cada auditorio).
+
+Crea y gestiona eventos (fotos, descripción, horarios, precios).
+
+Monitorea y regula los asientos.
+
+Recepcionista:
+
+Escanea códigos QR para validar entradas.
+
+Cambia el estado de los asientos a "asistido".
+
+Gestión de Eventos
+
+Los administradores pueden crear eventos con:
+
+Foto del espectáculo.
+
+Descripción detallada.
+
+Fecha y hora del evento (sin conflictos horarios en el mismo auditorio).
+
+Diferentes precios por zona (en Teatro Nacional y Teatro Melico Salazar).
+
+Sistema de Tickets Electrónicos
+
+
+Los usuarios reciben un correo de confirmación al finalizar la reserva.
+
+Incluye un código QR con detalles del evento, que será escaneado por el recepcionista.
+
+Notificación con recordatorio de llegada 30 minutos antes del evento.
+
+Aviso de liberación automática de asientos 10 minutos después del inicio del evento.
+
+Asientos Asistidos y Liberación Automática
+
+Los asientos marcados como "asistido" se confirman al presentarse en el evento.
+
+Los asientos no utilizados se liberan automáticamente para otros usuarios.
+
+Interfaz Intuitiva y Cascada de Opciones
+
+Menú dinámico con opciones como perfil, notificaciones y lista de auditorios.
+
+Selección progresiva: al hacer clic en un auditorio, se despliegan los eventos disponibles.
+
+Auditorios Disponibles
 
 Aula Magna UCR
 
@@ -26,67 +97,27 @@ Teatro Melico Salazar
 
 Teatro Nacional
 
+Flujo de Trabajo del Usuario
 
-### Tipos de Usuarios
+Inicio de Sesión: Los usuarios deben loguearse en la página web.
 
-Usuario Básico: Puede reservar hasta 5 asientos en cualquier auditorio.
+Selección del Auditorio: Navegan entre los auditorios y eventos disponibles.
 
-Usuario VIP: Tiene acceso a reservar un día antes y puede seleccionar asientos exclusivos para VIP con un 20% de descuento.
+Reserva de Asientos:
 
-Administrador: Administra un auditorio específico (5 administradores en total), regula los asientos y puede crear eventos.
+Eligen asientos desde un mapa interactivo.
 
-Recepcionista: Encargado de verificar entradas y cambiar el estado de los asientos a "asistido".
+Realizan una compra simulada (con los descuentos aplicables).
 
-### Funcionalidades Principales
+Recepción del Ticket:
 
--Reservas en Tiempo Real: Las reservas se actualizan en tiempo real, lo que permite a los usuarios ver los asientos disponibles y seleccionarlos.
+Reciben un correo con los detalles de la reserva y el código QR.
 
--Gestión de Eventos: Los administradores pueden crear eventos con fotos, descripciones, fechas y horas. No se pueden crear eventos simultáneos en el mismo auditorio.
+Avisos importantes sobre la llegada anticipada y liberación de entradas.
 
--Sistema de Tickets: Los usuarios reciben un correo electrónico con un código QR tras confirmar una reserva, el cual puede ser escaneado por el recepcionista al ingresar.
+Ingreso al Evento:
 
--Asientos Asistidos: Los asientos reservados se marcan como "asistido" al presentarse en el evento, o se liberan si no se presentan en un periodo de gracia de 10 minutos.
+El recepcionista valida la entrada mediante el código QR.
 
--Notificaciones por Correo: El sistema envía notificaciones con recordatorios de asistencia y liberación de asientos.
+Cambia el estado del asiento a "asistido".
 
-### ¿Qué se puede hacer en la página?
-
--Crear una cuenta de usuario.
-
--Buscar eventos y espectáculos en auditorios.
-
--Reservar hasta 5 asientos por evento (según la disponibilidad y tipo de usuario).
-
--Administrar asientos para los administradores.
-
--Gestionar el estado de los asientos para los recepcionistas.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
