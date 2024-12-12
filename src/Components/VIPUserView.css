@@ -1,0 +1,55 @@
+.vip-nav-button {
+    background-color: gold;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.vip-nav-button:hover {
+    background-color: black;
+    color: gold;
+}
+
+.vip-carousel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.vip-carousel-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 300px;
+    text-align: center;
+}
+
+.vip-carousel-image {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.vip-carousel-info {
+    padding: 15px;
+}
+
+.vip-carousel-info h3 {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.vip-carousel-info p {
+    font-size: 14px;
+    color: #555;
+}
+

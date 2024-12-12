@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import { getDatabase, ref, onValue, update } from 'firebase/database';
 import { getAuth, signOut } from 'firebase/auth';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './UserView.css';
 import app from '../firebaseconfig';
 
@@ -54,6 +54,9 @@ const auditoriums = [
 const UserView = () => {
     const [user, setUser] = useState(null);
     const [notifications, setNotifications] = useState("¡Bienvenido! Aquí verás tus notificaciones importantes.");
+    const [vipCode, setVipCode] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
@@ -62,7 +65,6 @@ const UserView = () => {
             setUser({ email: currentUser.email, role: "Usuario estándar" });
         }
 
-        // Verificar si la compra fue exitosa
         if (location.state?.reservationSuccess) {
             setNotifications("Reserva confirmada. Recuerda presentarte 30 minutos antes del evento.");
         }
@@ -92,6 +94,28 @@ const UserView = () => {
         }
     };
 
+    const handleVipCodeSubmit = () => {
+        if (vipCode === "202412") { 
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                const userRef = ref(db, `users/${currentUser.uid}`);
+                update(userRef, { role: "VIP" })
+                    .then(() => {
+                        setUser((prev) => ({ ...prev, role: "VIP" }));
+                        setErrorMessage("¡Felicidades! Ahora eres un usuario VIP.");
+                        navigate('/VIPUserView'); 
+                    })
+                    .catch((error) => {
+                        console.error("Error al actualizar el rol del usuario:", error);
+                        setErrorMessage("Hubo un error al procesar tu solicitud. Intenta de nuevo más tarde.");
+                    });
+            }
+        } else {
+            setErrorMessage("El código ingresado es incorrecto.");
+        }
+    };
+    
+
     return (
         <div>
             <Header onLogout={handleLogout} onProfileClick={showProfileInfo} onNotificationsClick={() => alert(notifications)} />
@@ -99,6 +123,18 @@ const UserView = () => {
             <h2>Seleccione un Auditorio</h2>
             <AuditoriumList auditoriums={auditoriums} onSelect={handleAuditoriumSelection} />
             <Carousel auditoriums={auditoriums} />
+
+            <div className="vip-section">
+                <h2>Convertirse en VIP</h2>
+                <input
+                    type="text"
+                    value={vipCode}
+                    onChange={(e) => setVipCode(e.target.value)}
+                    placeholder="Ingresa tu código VIP"
+                />
+                <button className="nav-button" onClick={handleVipCodeSubmit}>Validar Código</button>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+            </div>
         </div>
     );
 };
@@ -140,6 +176,7 @@ const Carousel = ({ auditoriums }) => {
 };
 
 export default UserView;
+
 
 
 

@@ -15,42 +15,42 @@ function Login() {
     const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
-    // Función para registrar nuevos usuarios
+    
     async function userRegister(email, password) {
         try {
             const infoUser = await createUserWithEmailAndPassword(auth, email, password);
 
-            // Guardar el usuario como estándar en la base de datos
+            
             const userRef = ref(db, `users/${infoUser.user.uid}`);
             await set(userRef, { correo: email, rol: 'user' });
 
-            await signOut(auth); // Cerrar sesión después del registro
+            await signOut(auth); 
 
             setSuccessMessage('Usuario registrado exitosamente. Por favor, inicie sesión.');
             setErrorMessage('');
-            setIsRegistering(false); // Cambiar de vuelta a la pantalla de inicio de sesión
+            setIsRegistering(false); 
         } catch (error) {
             setErrorMessage('Error al registrar el usuario: ' + error.message);
             setSuccessMessage('');
         }
     }
 
-    // Función para manejar el login
+    
     async function submitHandler(e) {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
 
         if (isRegistering) {
-            // Registro de usuario
+            
             await userRegister(email, password);
         } else {
-            // Inicio de sesión
+            
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const userId = userCredential.user.uid;
 
-                // Obtener datos del usuario desde Firebase
+                
                 const userRef = ref(db, `users/${userId}`);
                 const snapshot = await get(userRef);
 
@@ -58,7 +58,7 @@ function Login() {
                     const userData = snapshot.val();
                     const userRole = userData.rol;
 
-                    // Redirigir según el correo
+                    
                     if (email === 'admin_aula_magna_ucr@example.com') {
                         navigate('/AdminAulaMagnaUCRView');
                     } else if (email === 'recepcionist_aula_magna_ucr@example.com') {

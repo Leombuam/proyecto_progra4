@@ -88,10 +88,12 @@ function App() {
         <Route path="/RecepcionistCentroArtesUNA" element={<RecepcionistCentroArtesUNA />} />
         <Route path="/RecepcionistTeatroMelicoSalazar" element={<RecepcionistTeatroMelicoSalazar />} />
         <Route path="/RecepcionistTeatroNacional" element={<RecepcionistTeatroNacional />} />
-        <Route path="/purchase" element={<PurchasePage />} /> {/* Nueva ruta */}
+        <Route path="/purchase" element={<PurchasePage />} /> 
       </Routes>
     </Router>
+    
   );
+
 }
 
 export default App;

@@ -1,3 +1,19 @@
+.page-container {
+    text-align: center;
+    padding-top: 20px; 
+}
+
+.main-title {
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px; 
+    position: relative;
+    z-index: 10; 
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url(https://i.pinimg.com/originals/8b/09/22/8b0922e326e89c7d495f89f03336b546.gif);
