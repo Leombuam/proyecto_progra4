@@ -1,31 +1,18 @@
-body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
 .teatro-nacional {
     text-align: center;
-    padding: 20px;
-}
-
-.event-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.event-info img {
-    max-width: 300px;
-    border-radius: 10px;
-}
-
-.price-bar {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.8);
+    font-family: Arial, sans-serif;
     color: white;
+}
+
+.screen {
+    width: 80%;
+    height: 50px;
+    margin: 20px auto;
+    background-color: white;
+    color: black;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
     border-radius: 10px;
 }
 
@@ -34,25 +21,85 @@ body {
     grid-template-columns: repeat(10, 30px);
     gap: 10px;
     justify-content: center;
+    margin-top: 20px;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .seat.butaca {
-    border: 2px solid #FFD700;
+    border: 2px solid #FFD700; /* Oro */
 }
 
 .seat.luneta {
-    border: 2px solid #1E90FF;
+    border: 2px solid #1E90FF; /* Azul cielo */
 }
 
 .seat.palco {
-    border: 2px solid #32CD32;
+    border: 2px solid #32CD32; /* Verde lima */
 }
 
 .seat.galería {
-    border: 2px solid #FF69B4;
+    border: 2px solid #FF69B4; /* Rosa fuerte */
+}
+
+.seat.disponible {
+    background-color: gray;
+}
+
+.seat.seleccionado {
+    background-color: green;
+    color: white;
 }
 
 .seat.ocupado {
     background-color: red;
+    color: white;
+    cursor: not-allowed;
     pointer-events: none;
+}
+
+.price-bar {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.reset-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #c9302c;
 }

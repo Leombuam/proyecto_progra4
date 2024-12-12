@@ -1,4 +1,4 @@
-.teatro-melico-salazar {
+.centro-artes-una {
     text-align: center;
     font-family: Arial, sans-serif;
     color: white;
@@ -72,7 +72,7 @@
     text-align: center;
 }
 
-.reserve-button {
+.save-button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -84,6 +84,22 @@
     transition: background-color 0.3s ease;
 }
 
-.reserve-button:hover {
+.save-button:hover {
     background-color: #45a049;
+}
+
+.reset-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #c9302c;
 }

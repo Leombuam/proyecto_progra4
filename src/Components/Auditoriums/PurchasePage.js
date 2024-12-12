@@ -43,8 +43,9 @@ function PurchasePage() {
         
         setTimeout(() => {
             alert(`Compra confirmada con el número de orden: ${generatedOrderId}`);
-            navigate('/UserView'); 
+            navigate('/UserView', { state: { reservationSuccess: true } }); 
         }, 1500);
+        
     };
 
     const renderPaymentForm = () => {

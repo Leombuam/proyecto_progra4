@@ -1,6 +1,7 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { getDatabase, ref, onValue, update } from 'firebase/database';
 import { getAuth, signOut } from 'firebase/auth';
+import { useLocation } from 'react-router-dom';
 import './UserView.css';
 import app from '../firebaseconfig';
 
@@ -51,6 +52,22 @@ const auditoriums = [
 ];
 
 const UserView = () => {
+    const [user, setUser] = useState(null);
+    const [notifications, setNotifications] = useState("¡Bienvenido! Aquí verás tus notificaciones importantes.");
+    const location = useLocation();
+
+    useEffect(() => {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            setUser({ email: currentUser.email, role: "Usuario estándar" });
+        }
+
+        // Verificar si la compra fue exitosa
+        if (location.state?.reservationSuccess) {
+            setNotifications("Reserva confirmada. Recuerda presentarte 30 minutos antes del evento.");
+        }
+    }, [location.state]);
+
     const handleAuditoriumSelection = (path) => {
         window.open(`${window.location.origin}${path}`, '_blank');
     };
@@ -67,9 +84,17 @@ const UserView = () => {
             });
     };
 
+    const showProfileInfo = () => {
+        if (user) {
+            alert(`Correo: ${user.email}\nRol: ${user.role}`);
+        } else {
+            alert("No se encontró información del usuario.");
+        }
+    };
+
     return (
         <div>
-            <Header onLogout={handleLogout} />
+            <Header onLogout={handleLogout} onProfileClick={showProfileInfo} onNotificationsClick={() => alert(notifications)} />
             <h1>Bienvenido</h1>
             <h2>Seleccione un Auditorio</h2>
             <AuditoriumList auditoriums={auditoriums} onSelect={handleAuditoriumSelection} />
@@ -78,10 +103,10 @@ const UserView = () => {
     );
 };
 
-const Header = ({ onLogout }) => (
+const Header = ({ onLogout, onProfileClick, onNotificationsClick }) => (
     <header className="header-bar">
-        <button className="nav-button" onClick={() => alert("Información de perfil")}>Perfil</button>
-        <button className="nav-button" onClick={() => alert("Notificaciones")}>Notificaciones</button>
+        <button className="nav-button" onClick={onProfileClick}>Perfil</button>
+        <button className="nav-button" onClick={onNotificationsClick}>Notificaciones</button>
         <button className="nav-button" onClick={onLogout}>Cerrar sesión</button>
     </header>
 );
@@ -114,8 +139,10 @@ const Carousel = ({ auditoriums }) => {
     );
 };
 
-
 export default UserView;
+
+
+
 
 
 

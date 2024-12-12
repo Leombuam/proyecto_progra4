@@ -1,14 +1,21 @@
 .centro-artes-una {
     text-align: center;
     font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.event-selection select {
+    padding: 10px;
+    font-size: 16px;
+    margin: 20px 0;
 }
 
 .screen {
     width: 80%;
     height: 50px;
     margin: 20px auto;
-    background-color: white;
-    color: black;
+    background-color: #444;
+    color: white;
     text-align: center;
     line-height: 50px;
     font-weight: bold;
@@ -20,7 +27,7 @@
     grid-template-columns: repeat(10, 30px);
     gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .seat {
@@ -28,47 +35,56 @@
     height: 30px;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.disponible {
     background-color: gray;
 }
 
-.seleccionado {
-    background-color: green;
+.seat.butaca {
+    border: 2px solid #FFD700;
 }
 
-.ocupado {
-    background-color: red;
-    cursor: not-allowed;
+.seat.luneta {
+    border: 2px solid #1E90FF;
 }
 
-.legend {
-    margin-top: 20px;
+.seat.palco {
+    border: 2px solid #32CD32;
 }
 
-.legend-item {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 0 10px;
-    border-radius: 3px;
+.seat.galería {
+    border: 2px solid #FF69B4;
 }
 
-.legend-item.disponible {
-    background-color: gray;
+.seat.ocupado {
+    background-color: #f44336;
 }
 
-.legend-item.seleccionado {
-    background-color: green;
-}
-
-.legend-item.ocupado {
-    background-color: red;
-}
-
-.centro-artes-una {
-    text-align: center;
-    font-family: Arial, sans-serif;
+.save-button {
+    background-color: #4CAF50;
     color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.reset-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.reset-button:hover {
+    background-color: #c9302c;
 }
