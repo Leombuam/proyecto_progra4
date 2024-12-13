@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './PurchasePage.css'; 
+import { QRCodeCanvas } from 'qrcode.react'; 
+import './PurchasePage.css';
 
 function PurchasePage() {
     const { state } = useLocation();
@@ -19,8 +20,8 @@ function PurchasePage() {
     const { selectedEvent, total, selectedSeats, prices } = state;
 
     const handleApplyVipCode = () => {
-        if (vipCode === '202412') { 
-            const discountedTotal = total * 0.8; 
+        if (vipCode === '202412') {
+            const discountedTotal = total * 0.8;
             setFinalTotal(discountedTotal);
             setDiscountApplied(true);
             alert('¡Código VIP aplicado! Se ha descontado un 20% del total.');
@@ -40,22 +41,12 @@ function PurchasePage() {
             return;
         }
 
-        if (paymentMethod === 'paypal') {
-            const paypalURL = `https://www.paypal.com/checkoutnow?amount=${finalTotal}`;
-            alert('Serás redirigido a PayPal. Una vez completado el pago, volverás al menú de usuario.');
-            window.location.href = paypalURL;
-            setTimeout(() => {
-                navigate('/UserView'); 
-            }, 2000);
-            return;
-        }
-
         const generatedOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
         setOrderId(generatedOrderId);
 
         setTimeout(() => {
             alert(`Compra confirmada con el número de orden: ${generatedOrderId}`);
-            navigate('/UserView', { state: { reservationSuccess: true } }); 
+            navigate('/UserView', { state: { reservationSuccess: true } });
         }, 1500);
     };
 
@@ -97,6 +88,16 @@ function PurchasePage() {
         }
 
         return null;
+    };
+
+    const generateQRData = () => {
+        return JSON.stringify({
+            orderId,
+            selectedEvent,
+            selectedSeats,
+            total: finalTotal,
+            paymentMethod,
+        });
     };
 
     return (
@@ -170,6 +171,10 @@ function PurchasePage() {
                 <div className="confirmation-message">
                     <p>Compra confirmada con el número de orden:</p>
                     <p>{orderId}</p>
+                    <div className="qr-code">
+                        <QRCodeCanvas value={generateQRData()} size={200} />
+                        <p>Escanea este código QR para guardar tu compra.</p>
+                    </div>
                 </div>
             )}
 
@@ -181,4 +186,3 @@ function PurchasePage() {
 }
 
 export default PurchasePage;
-
