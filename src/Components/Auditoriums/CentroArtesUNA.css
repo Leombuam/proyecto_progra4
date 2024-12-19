@@ -1,27 +1,55 @@
-.centro-artes-una {
-    text-align: center;
+/* Estilos generales */
+body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9; /* Fondo claro */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
 }
 
+/* Vista del centro de artes */
+.centro-artes-una {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff; /* Fondo blanco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para la selección de eventos */
 .event-selection select {
     padding: 10px;
     font-size: 16px;
     margin: 20px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 70%;
 }
 
+/* Estilo de la pantalla */
 .screen {
     width: 80%;
     height: 50px;
     margin: 20px auto;
-    background-color: #444;
+    background-color: #444; /* Fondo oscuro */
     color: white;
     text-align: center;
     line-height: 50px;
     font-weight: bold;
     border-radius: 10px;
+    font-size: 16px;
 }
 
+/* Estilos para la cuadrícula de asientos */
 .seat-grid {
     display: grid;
     grid-template-columns: repeat(10, 30px);
@@ -35,29 +63,32 @@
     height: 30px;
     border-radius: 5px;
     cursor: pointer;
-    background-color: gray;
+    background-color: gray; /* Fondo por defecto */
 }
 
 .seat.butaca {
-    border: 2px solid #FFD700;
+    border: 2px solid #FFD700; /* Oro */
 }
 
 .seat.luneta {
-    border: 2px solid #1E90FF;
+    border: 2px solid #1E90FF; /* Azul cielo */
 }
 
 .seat.palco {
-    border: 2px solid #32CD32;
+    border: 2px solid #32CD32; /* Verde lima */
 }
 
 .seat.galería {
-    border: 2px solid #FF69B4;
+    border: 2px solid #FF69B4; /* Rosa fuerte */
 }
 
 .seat.ocupado {
-    background-color: #f44336;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    pointer-events: none; /* Deshabilitar interacción */
 }
 
+/* Botones de guardar y restablecer */
 .save-button {
     background-color: #4CAF50;
     color: white;
@@ -83,8 +114,34 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .reset-button:hover {
     background-color: #c9302c;
+}
+
+/* Detalles del evento */
+.event-details img {
+    max-width: 20%;
+    height: auto;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+    .seat-grid {
+        grid-template-columns: repeat(5, 30px);
+    }
+
+    .event-selection select {
+        width: 90%;
+    }
+
+    .save-button,
+    .reset-button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
 }

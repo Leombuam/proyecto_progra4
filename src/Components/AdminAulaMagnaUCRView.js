@@ -6,8 +6,7 @@ import './Auditoriums/AulaMagnaUCR.css';
 function AdminAulaMagnaUCRView() {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [seats, setSeats] = useState([]);
-
-    const events = {
+    const [events, setEvents] = useState({
         'Marimba de Concierto de Bellas Artes, Guatemala': {
             description: 'Disfruta de la tradicional Marimba de Concierto de Bellas Artes desde Guatemala, una velada llena de música cultural.',
             schedule: '10 de diciembre de 2024, 7:00 PM',
@@ -41,26 +40,39 @@ function AdminAulaMagnaUCRView() {
             },
             image: 'https://cdn.viralagenda.com/images/events/ext/1225463-ff4cbd34ec9da189eb74780d2fe731dd.jpeg',
         },
-    };
+    });
 
+    const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+    const [newEvent, setNewEvent] = useState({
+        name: '',
+        description: '',
+        schedule: '',
+        prices: { butaca: '', luneta: '', palco: '', galería: '' },
+        image: '',
+    });
+
+    // Cargar los asientos del evento seleccionado desde localStorage
     useEffect(() => {
-        const storedSeats = localStorage.getItem('reservedSeats');
-        if (storedSeats) {
-            setSeats(JSON.parse(storedSeats));
-        } else {
-            initializeSeats();
+        if (selectedEvent) {
+            const storedSeats = localStorage.getItem(`seats_${selectedEvent}`);
+            if (storedSeats) {
+                setSeats(JSON.parse(storedSeats));
+            } else {
+                initializeSeatsForEvent(selectedEvent);
+            }
         }
-    }, []);
+    }, [selectedEvent]);
 
-    const initializeSeats = () => {
+    // Inicializar los asientos de un evento
+    const initializeSeatsForEvent = (eventName) => {
         const initialSeats = Array(100).fill('disponible').map((_, index) => {
             if (index < 20) return { status: 'disponible', section: 'butaca' };
             if (index < 40) return { status: 'disponible', section: 'luneta' };
             if (index < 70) return { status: 'disponible', section: 'palco' };
             return { status: 'disponible', section: 'galería' };
         });
+        localStorage.setItem(`seats_${eventName}`, JSON.stringify(initialSeats));
         setSeats(initialSeats);
-        localStorage.setItem('reservedSeats', JSON.stringify(initialSeats));
     };
 
     const handleEventChange = (event) => {
@@ -77,19 +89,109 @@ function AdminAulaMagnaUCRView() {
         );
     };
 
-    const resetSeats = () => {
-        initializeSeats(); // Restablecer todos los asientos a "disponible"
+    const handleSaveChanges = () => {
+        if (selectedEvent) {
+            localStorage.setItem(`seats_${selectedEvent}`, JSON.stringify(seats));
+            alert('Cambios guardados correctamente.');
+        }
     };
 
-    const handleSaveChanges = () => {
-        localStorage.setItem('reservedSeats', JSON.stringify(seats));
-        alert('Cambios guardados correctamente.');
+    const resetSeats = () => {
+        if (selectedEvent) initializeSeatsForEvent(selectedEvent);
+    };
+
+    const handleCreateEvent = () => {
+        setEvents((prevEvents) => ({
+            ...prevEvents,
+            [newEvent.name]: {
+                description: newEvent.description,
+                schedule: newEvent.schedule,
+                prices: newEvent.prices,
+                image: newEvent.image,
+            },
+        }));
+        initializeSeatsForEvent(newEvent.name); // Inicializar los asientos para el nuevo evento
+        setIsCreatingEvent(false);
+        setNewEvent({
+            name: '',
+            description: '',
+            schedule: '',
+            prices: { butaca: '', luneta: '', palco: '', galería: '' },
+            image: '',
+        });
     };
 
     return (
         <div className="aula-magna-ucr">
             <h2>Vista del Administrador - Aula Magna UCR</h2>
             <p>Gestiona los eventos y los asientos.</p>
+
+            {isCreatingEvent ? (
+                <div className="create-event-form">
+                    <h3>Crear Nuevo Evento</h3>
+                    <input
+                        type="text"
+                        placeholder="Nombre del Evento"
+                        value={newEvent.name}
+                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                    />
+                    <textarea
+                        placeholder="Descripción"
+                        value={newEvent.description}
+                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                    />
+                    <input
+                        type="datetime-local"
+                        value={newEvent.schedule}
+                        onChange={(e) => setNewEvent({ ...newEvent, schedule: e.target.value })}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Butaca"
+                        value={newEvent.prices.butaca}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, butaca: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Luneta"
+                        value={newEvent.prices.luneta}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, luneta: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Palco"
+                        value={newEvent.prices.palco}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, palco: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Galería"
+                        value={newEvent.prices.galería}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, galería: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="text"
+                        placeholder="URL de la Imagen"
+                        value={newEvent.image}
+                        onChange={(e) => setNewEvent({ ...newEvent, image: e.target.value })}
+                    />
+                    <button onClick={handleCreateEvent}>Guardar Evento</button>
+                    <button onClick={() => setIsCreatingEvent(false)}>Cancelar</button>
+                </div>
+            ) : (
+                <>
+                    <button onClick={() => setIsCreatingEvent(true)}>Crear Nuevo Evento</button>
+                </>
+            )}
+
             <div className="event-selection">
                 <label htmlFor="event">Selecciona un evento:</label>
                 <select id="event" onChange={handleEventChange}>

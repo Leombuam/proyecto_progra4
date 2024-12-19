@@ -12,6 +12,7 @@ function PurchasePage() {
     const [vipCode, setVipCode] = useState('');
     const [discountApplied, setDiscountApplied] = useState(false);
     const [finalTotal, setFinalTotal] = useState(state?.total || 0);
+    const previousPath = state?.previousPath || '/defaultPath';
 
     if (!state) {
         return <h1>No se encontraron datos de la compra</h1>;
@@ -35,20 +36,21 @@ function PurchasePage() {
             alert('Por favor, seleccione un método de pago.');
             return;
         }
-
+    
         if ((paymentMethod === 'tarjeta' || paymentMethod === 'sinpemovil') && !paymentDetails) {
             alert(`Por favor, ingrese los datos requeridos para el método de pago: ${paymentMethod}`);
             return;
         }
-
+    
         const generatedOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
         setOrderId(generatedOrderId);
-
+    
         setTimeout(() => {
             alert(`Compra confirmada con el número de orden: ${generatedOrderId}`);
-            navigate('/UserView', { state: { reservationSuccess: true } });
+            navigate(('/UserView'), { state: { reservationSuccess: true } }); 
         }, 1500);
     };
+   
 
     const renderPaymentForm = () => {
         if (paymentMethod === 'tarjeta') {

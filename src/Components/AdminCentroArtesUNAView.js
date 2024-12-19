@@ -4,12 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import './Auditoriums/CentroArtesUNA.css';
 
 function AdminCentroArtesUNAView() {
-    const auth = getAuth();
-    const navigate = useNavigate();
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [seats, setSeats] = useState([]);
-
-    const events = {
+    const [events, setEvents] = useState({
         'Concierto con Jon Secada junto a la Costa Rica Jazz Orchestra': {
             description: 'Disfruta de una noche inolvidable con Jon Secada y la Costa Rica Jazz Orchestra, presentando una fusión única de jazz y pop.',
             schedule: '2 de diciembre de 2024, 6:00 PM',
@@ -19,7 +16,7 @@ function AdminCentroArtesUNAView() {
                 palco: 20000,
                 galería: 15000,
             },
-            image: 'https://www.nacion.com/resizer/v2/FUX5WWBP5RCDHHCJJCADGBB4ZE.jpg?smart=true&auth=5a33e4ed4a06673e14d3e09327969a3039c44d11a073541da57092887a270d14&width=1440&height=753',
+            image: 'https://www.nacion.com/resizer/v2/FUX5WWBP5RCDHHCJJCADGBB4ZE.jpg',
         },
         'Danza Argentina “Malambeando”': {
             description: 'Sumérgete en la pasión y energía del malambo argentino con el espectáculo "Malambeando", una muestra vibrante de danza tradicional.',
@@ -43,18 +40,29 @@ function AdminCentroArtesUNAView() {
             },
             image: 'https://orquestafilarmonica.com/wp-content/uploads/OrquestaFilarmonicaDeCostaRica_01.jpg',
         },
-    };
+    });
+
+    const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+    const [newEvent, setNewEvent] = useState({
+        name: '',
+        description: '',
+        schedule: '',
+        prices: { butaca: '', luneta: '', palco: '', galería: '' },
+        image: '',
+    });
 
     useEffect(() => {
-        const storedSeats = localStorage.getItem('reservedSeatsUNA');
-        if (storedSeats) {
-            setSeats(JSON.parse(storedSeats));
-        } else {
-            initializeSeats();
+        if (selectedEvent) {
+            const storedSeats = localStorage.getItem(`seats_UNA_${selectedEvent}`);
+            if (storedSeats) {
+                setSeats(JSON.parse(storedSeats));
+            } else {
+                initializeSeatsForEvent(selectedEvent);
+            }
         }
-    }, []);
+    }, [selectedEvent]);
 
-    const initializeSeats = () => {
+    const initializeSeatsForEvent = (eventName) => {
         const initialSeats = Array(100).fill('disponible').map((_, index) => {
             if (index < 20) return { status: 'disponible', section: 'butaca' };
             if (index < 40) return { status: 'disponible', section: 'luneta' };
@@ -62,7 +70,7 @@ function AdminCentroArtesUNAView() {
             return { status: 'disponible', section: 'galería' };
         });
         setSeats(initialSeats);
-        localStorage.setItem('reservedSeatsUNA', JSON.stringify(initialSeats));
+        localStorage.setItem(`seats_UNA_${eventName}`, JSON.stringify(initialSeats));
     };
 
     const handleEventChange = (event) => {
@@ -79,32 +87,107 @@ function AdminCentroArtesUNAView() {
         );
     };
 
-    const resetSeats = () => {
-        initializeSeats(); // Restablecer todos los asientos a "disponible"
-    };
-
     const handleSaveChanges = () => {
-        localStorage.setItem('reservedSeatsUNA', JSON.stringify(seats));
-        alert('Cambios guardados correctamente.');
+        if (selectedEvent) {
+            localStorage.setItem(`seats_UNA_${selectedEvent}`, JSON.stringify(seats));
+            alert('Cambios guardados correctamente.');
+        }
     };
 
-    const handleLogout = () => {
-        signOut(auth)
-            .then(() => {
-                console.log('Sesión cerrada exitosamente.');
-                navigate('/');
-            })
-            .catch((error) => {
-                console.error('Error al cerrar sesión:', error);
-                alert('Hubo un error al intentar cerrar sesión. Inténtalo de nuevo.');
-            });
+    const resetSeats = () => {
+        if (selectedEvent) initializeSeatsForEvent(selectedEvent);
+    };
+
+    const handleCreateEvent = () => {
+        setEvents((prevEvents) => ({
+            ...prevEvents,
+            [newEvent.name]: {
+                description: newEvent.description,
+                schedule: newEvent.schedule,
+                prices: newEvent.prices,
+                image: newEvent.image,
+            },
+        }));
+        initializeSeatsForEvent(newEvent.name);
+        setIsCreatingEvent(false);
+        setNewEvent({
+            name: '',
+            description: '',
+            schedule: '',
+            prices: { butaca: '', luneta: '', palco: '', galería: '' },
+            image: '',
+        });
     };
 
     return (
         <div className="centro-artes-una">
-            <button onClick={handleLogout}>Cerrar sesión</button>
             <h2>Vista del Administrador - Centro para las Artes UNA</h2>
             <p>Gestiona los eventos y los asientos.</p>
+
+            {isCreatingEvent ? (
+                <div className="create-event-form">
+                    <h3>Crear Nuevo Evento</h3>
+                    <input
+                        type="text"
+                        placeholder="Nombre del Evento"
+                        value={newEvent.name}
+                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                    />
+                    <textarea
+                        placeholder="Descripción"
+                        value={newEvent.description}
+                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                    />
+                    <input
+                        type="datetime-local"
+                        value={newEvent.schedule}
+                        onChange={(e) => setNewEvent({ ...newEvent, schedule: e.target.value })}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Butaca"
+                        value={newEvent.prices.butaca}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, butaca: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Luneta"
+                        value={newEvent.prices.luneta}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, luneta: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Palco"
+                        value={newEvent.prices.palco}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, palco: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="number"
+                        placeholder="Precio Galería"
+                        value={newEvent.prices.galería}
+                        onChange={(e) =>
+                            setNewEvent({ ...newEvent, prices: { ...newEvent.prices, galería: e.target.value } })
+                        }
+                    />
+                    <input
+                        type="text"
+                        placeholder="URL de la Imagen"
+                        value={newEvent.image}
+                        onChange={(e) => setNewEvent({ ...newEvent, image: e.target.value })}
+                    />
+                    <button onClick={handleCreateEvent}>Guardar Evento</button>
+                    <button onClick={() => setIsCreatingEvent(false)}>Cancelar</button>
+                </div>
+            ) : (
+                <button onClick={() => setIsCreatingEvent(true)}>Crear Nuevo Evento</button>
+            )}
+
             <div className="event-selection">
                 <label htmlFor="event">Selecciona un evento:</label>
                 <select id="event" onChange={handleEventChange}>
